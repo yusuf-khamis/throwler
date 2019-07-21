@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
@@ -10,7 +12,8 @@ const defaultOpts = {
     autorotate: 'hourly',
     dirDateFormat: 'DD-MMMM-YYYY',
     dateFormat: 'DD-MMMM-YYYYTHH',
-    dir: '.'
+    dir: '.',
+    size: '10M'
 };
 
 /**
@@ -67,6 +70,10 @@ function createLogger(options) {
         opts.dir = defaultOpts.dir;
     }
 
+    if (!opts.size || !String(opts.size).match(/^\d(M|K|G)$/i)) {
+        opts.size = defaultOpts.size;
+    }
+
     return function (content, level) {
         if (!level || !opts.levels.find(item => item.toLowerCase() === String(level).toLowerCase())) {
             level = '';
@@ -90,8 +97,37 @@ function createLogger(options) {
             } catch (e) { }
         }
 
+        let sizeRotateNumber = 0;
+
+        if (fs.existsSync(filename)) {
+            const stats = fs.statSync(filename);
+
+            const unit = opts.size.match(/(m|k|g)/i)[0].toLowerCase();
+            const size = Number(opts.size.match(/\d+/)[0]);
+
+            let comparisonSize = 0;
+
+            switch (unit) {
+                case 'k':
+                    comparisonSize = size * 1024;
+
+                    break;
+                case 'm':
+                    comparisonSize = size * 1048576;
+
+                    break;
+
+                case 'g':
+                    comparisonSize = size * 1073741824;
+
+                    break;
+            }
+
+
+        }
+
         const data = {
-            timestamp: moment().format('YYYY-MM-DDTHH:mm:ss'),
+            timestamp: moment().format('YYYY-MMM-DDTHH:mm:ss'),
             ...(level && { level: level.substr(1) }),
             content: content
         };
@@ -107,22 +143,30 @@ function createLogger(options) {
                 encoding: 'utf8'
             });
 
+            let count = 0;
+
             const writeFn = function() {
-                const writeData = Buffer.concat([Buffer.from(util.inspect(data, utilOptions)), Buffer.from('\n\n')]);
+                process.nextTick(() => {
+                    count += 1;
 
-                if (stream.write(writeData)) {
-                    stream.end();
+                    const writeData = Buffer.concat([Buffer.from(util.inspect(data, utilOptions)), Buffer.from('\n\n')]);
 
-                    return;
-                }
+                    if (stream.write(writeData)) {
+                        stream.end();
 
-                stream.once('drain', writeFn);
+                        return;
+                    }
+
+                    stream.once('drain', writeFn);
+                });
             };
 
             stream.on('error', err => {
                 console.log(err);
 
-                writeFn();
+                if (count > 3) {
+                    writeFn();
+                }
             });
 
             writeFn();

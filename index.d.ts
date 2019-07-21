@@ -1,4 +1,4 @@
-declare module 'wow-logger' {
+declare module 'throwler' {
 
     /**
      * LogMethod
@@ -25,6 +25,7 @@ declare module 'wow-logger' {
         dateFormat?: string;
         dirDateFormat?: string;
         dir?: string;
+        size?: string;
     }
 
     /**
