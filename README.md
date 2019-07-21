@@ -1,10 +1,10 @@
-# wow-logger
+# throwler
 
 Node.JS simplistic logger that auto rotates logs
 
-Wow logger was designed with the intention of making it extremely easy to log content from a NodeJS app with the feature of auto rotating files.
+Throwler was designed with the intention of making it extremely easy to log content from a NodeJS app with the feature of auto rotating files.
 
-## Why wow logger
+## Why throwler
 
 1. Its extremely light
 2. Minimal configurations
@@ -14,7 +14,7 @@ Wow logger was designed with the intention of making it extremely easy to log co
 ## Installation
 
 ``` sh
-$ npm install wow-logger
+$ npm install throwler
 ```
 
 ## Options
@@ -31,7 +31,7 @@ $ npm install wow-logger
 
 ``` js
 
-const logger = require('wow-logger');
+const logger = require('throwler');
 const path = require('path');
 
 const log = logger({
@@ -48,9 +48,9 @@ const log = logger({
     dir: path.resolve(__dirname, 'logs')
 });
 
-log('Hello wow logger with level', 'info'); //NB: If this level is not specified in levels option then it will be discarded
+log('Hello throwler with level', 'info'); //NB: If this level is not specified in levels option then it will be discarded
 
-log('Hello wow logger without level');
+log('Hello throwler without level');
 
 ```
 
