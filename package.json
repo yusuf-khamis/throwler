@@ -1,0 +1,37 @@
+{
+  "name": "throwler",
+  "description": "Node.JS simplistic logger that auto rotates logs",
+  "version": "1.0.13",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Yusuf Khamis",
+    "email": "yusufkhamis27@gmail.com",
+    "url": "https://github.com/yusuf-khamis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yusuf-khamis/throwler.git"
+  },
+  "engines": {
+    "node": ">= 0.3.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "log",
+    "logging",
+    "throwler",
+    "logs",
+    "stream"
+  ],
+  "dependencies": {
+    "moment": "^2.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.15"
+  },
+  "types": "./index.d.ts"
+}
