@@ -1,7 +1,7 @@
 {
   "name": "throwler",
   "description": "Node.JS simplistic logger that auto rotates logs",
-  "version": "1.0.13",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "author": {
