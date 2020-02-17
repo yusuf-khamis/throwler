@@ -19,7 +19,6 @@ declare module 'throwler' {
      */
     interface LoggerOptions {
         output?: 'console' | 'file';
-        levels?: string[];
         timestamp?: boolean;
         autorotate?: 'hourly' | 'daily' | 'none';
         dateFormat?: string;

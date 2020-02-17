@@ -1,8 +1,12 @@
 {
   "name": "throwler",
   "description": "Node.JS simplistic logger that auto rotates logs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "standard": "standard"
+  },
   "license": "MIT",
   "author": {
     "name": "Yusuf Khamis",
@@ -28,10 +32,13 @@
     "stream"
   ],
   "dependencies": {
+    "glob": "^7.1.6",
     "moment": "^2.23.0"
   },
   "devDependencies": {
-    "@types/node": "^10.12.15"
+    "@types/node": "^10.12.15",
+    "sinon": "^8.1.1",
+    "standard": "^14.3.1"
   },
   "types": "./index.d.ts"
 }
