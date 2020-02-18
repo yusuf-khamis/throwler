@@ -33,7 +33,7 @@ function createLogger (options) {
 
   // Option whether to autorotate the logs (change log file after the specified period)
   // Works with file transport only
-  if (!opts.autorotate || (opts.autorotate && String(opts.autorotate).match(/^(hourly|daily|none)$/))) {
+  if (!opts.autorotate || (opts.autorotate && !String(opts.autorotate).match(/^(hourly|daily|none)$/))) {
     opts.autorotate = defaultOpts.autorotate
   }
 
@@ -48,7 +48,7 @@ function createLogger (options) {
   }
 
   // Validates the directory option
-  if (opts.dir) {
+  if (typeof opts.dir === 'string') {
     // The directory name should not be a file
     if (fs.existsSync(opts.dir) && fs.lstatSync(opts.dir).isFile()) {
       const error = new Error('Directory \'' + opts.dir + '\' is a file')
@@ -82,6 +82,8 @@ function createLogger (options) {
   return function (content, level) {
     if (level) {
       level = '_' + String(level).toLowerCase()
+    } else {
+      level = ''
     }
 
     const data = {
@@ -106,13 +108,13 @@ function createLogger (options) {
 
       const filenamePattern = path.join(dirname, moment().format(opts.dateFormat) + level + '_*.log')
 
-      if (!fs.existsSync(path.dirname(filenamePattern))) {
-        fs.mkdirSync(path.dirname(filenamePattern))
+      if (!fs.existsSync(dirname)) {
+        fs.mkdirSync(dirname)
       }
 
       const logFiles = glob.sync(filenamePattern)
 
-      let filename = filenamePattern.substring(0, filenamePattern.lastIndexOf('*')) + logFiles.length || 1 +
+      let filename = filenamePattern.substring(0, filenamePattern.lastIndexOf('*')) + (logFiles.length || 1) +
         filenamePattern.substring(filenamePattern.lastIndexOf('*') + 1)
 
       if (fs.existsSync(filename)) {

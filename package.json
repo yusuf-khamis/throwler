@@ -7,6 +7,11 @@
     "test": "jest --coverage",
     "standard": "standard"
   },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
   "license": "MIT",
   "author": {
     "name": "Yusuf Khamis",
@@ -37,6 +42,7 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.15",
+    "jest": "^25.1.0",
     "sinon": "^8.1.1",
     "standard": "^14.3.1"
   },
